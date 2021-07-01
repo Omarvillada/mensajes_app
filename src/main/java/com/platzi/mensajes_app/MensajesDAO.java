@@ -63,7 +63,21 @@ public class MensajesDAO {
     }
     
     public static void borrarMensajeDB(int id_mensaje){
-        
+        Conexion connect_db = new Conexion();
+        try(Connection conexion = connect_db.get_connection()) {
+            PreparedStatement ps = null;
+            try {
+                String query = "DELETE FROM mensajes_app.mensajes WHERE id_mensajes = ?";
+                ps = conexion.prepareStatement(query);
+                ps.setInt(1, id_mensaje);
+                ps.executeUpdate();
+                System.out.println("Mensaje Borrado!");
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
     
     public static void actualizarMensajeDB(Mensajes mensaje){
